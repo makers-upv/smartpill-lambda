@@ -36,7 +36,7 @@ def lambda_handler(event, context):
     for pill in pills:
         if(pill[time]['BOOL']):
             print(pill['pill']['S'])
-            
+
             npills += 1
             
             # Set values to construct the message
@@ -46,8 +46,8 @@ def lambda_handler(event, context):
             # Set qty to one (hardcoded, needs to be improved)
             dispensepill_cmd["pills"][npills]["qty"] = 1
             
-            dispensepill_cmd["pills"][npills]["deposit"] = int(pill["deposit"]["N"])
-            dispensepill_cmd["pills"][npills]["weight"] = int(pill["weight"]["N"])
+            dispensepill_cmd["pills"][npills]["deposit"] = int(pill["deposit"]["S"])
+            dispensepill_cmd["pills"][npills]["weight"] = int(pill["weight"]["S"])
             
     # Get the number of different types of pills to dispense
     dispensepill_cmd["npills"] = npills
