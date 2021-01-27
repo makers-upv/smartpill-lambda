@@ -31,13 +31,18 @@ exports.handler = async (event, context, callback) => {
     var event = {};
     event.time = event_time;
     event.date = event_date.toISOString();
-    event.patient_name = 'John Stuart'
+
+    // Patient name -> Hardcoded, needs to be improved for future versions
+    event.patient_name = 'John Stewart'
     
     event.pills = ''; // Initialize event.pills
     
     pills.forEach(function(pill) {
-        event.pills = event.pills + ` ${pill.pill}`
-        
+        if(event.pills === ''){
+            event.pills = pill.pill;
+        }else{
+            event.pills = event.pills + `, ${pill.pill}`;
+        }
     });
     console.log(event);
         
