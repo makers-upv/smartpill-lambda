@@ -4,21 +4,16 @@ const documentClient = new aws.DynamoDB.DocumentClient({region: 'eu-west-1'});
 
 
 exports.handler = async (event, context, callback) => {
-    //const pillId = 'bce7690a-0981-43ec-9757-9601c565b581';
+    // Get pillId as the UUID for the lambda event in order to be random and unique
     const pillId = event.pathParameters.id;
     
-    console.log('pillId:' + pillId);
-    console.log(context);
-    
-    console.log(event)
-    //console.log('Event: \n'+JSON.stringify(event))
-    
+    // Get pill data from request body and print it for debug
     var pill = JSON.parse(event.body);
-    //var pill = event;
-    
+
     console.log('Pill: \n'+pill);
     console.log('Pill name: '+pill.pill);
-
+    
+    // Launch database request to edit database
     await editPill(pillId, pill).then(() => {
         callback(null, {
             statusCode: 200,
@@ -34,6 +29,8 @@ exports.handler = async (event, context, callback) => {
 
 };
 
+// Edit database function
+
 function editPill(pillId, pill) {
     var params = {
         TableName: 'smartpill-pills',
@@ -43,7 +40,10 @@ function editPill(pillId, pill) {
             'pill': pill.pill,
             'weight': pill.weight,
             'deposit': pill.deposit,
-            'image_url': pill.image_url
+            'image_url': pill.image_url,
+            'morning': pill.morning,
+            'afternoon': pill.afternoon,
+            'night': pill.night
         }
     }
     
