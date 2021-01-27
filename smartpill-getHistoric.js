@@ -6,9 +6,11 @@ const documentClient = new aws.DynamoDB.DocumentClient({region: 'eu-west-1'});
 exports.handler = async (event, context, callback) => {
 
     await getEvents().then(data => {
-        data.Items.forEach(function(item) {
-            //console.log(item.name);
-        })
+        
+        data.Items.sort(function(a, b){
+            return new Date(b.date) - new Date(a.date);
+        });
+        
         callback(null, {
             statusCode: 200,
             body: JSON.stringify(data.Items),
